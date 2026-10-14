@@ -2,37 +2,38 @@
 
 **Python Utilities for Elasticsearch Document Management**
 
-A collection of Python scripts designed to simplify Elasticsearch maintenance operations, including document deletion, document updates, and data integration between Elasticsearch and Neo4j.
+A collection of Python utilities designed to simplify Elasticsearch maintenance operations, including document deletion, document updates, chunk-wise processing, and data integration between Elasticsearch and Neo4j.
 
-This repository contains reusable utilities for managing Elasticsearch data through Python, supporting targeted maintenance tasks, database administration, and graph database integration.
+This repository provides reusable scripts for Elasticsearch administration, bulk data maintenance, and graph database integration.
 
 ## ✨ Features
 
 - 🗑️ **Document Deletion** — Perform Elasticsearch deletion operations using `es_delete.py`.
 - 🔄 **Document Updates** — Update Elasticsearch documents using `es_update.py`.
+- 📦 **Chunk-Wise Updates** — Update Elasticsearch data in manageable chunks using `ES_Chunk_Size_Update.py`.
 - 🔗 **Elasticsearch to Neo4j Integration** — Transfer and integrate Elasticsearch data into Neo4j using `es_to_neo4j.py`.
-- 🐍 **Python-Based Utilities** — Automate data management and maintenance tasks with Python.
-- ⚙️ **Configurable Operations** — Adapt the scripts to your Elasticsearch and Neo4j environments.
-- 🛠️ **Reusable Scripts** — Maintain separate modules for deletion, updates, and data integration.
+- 🐍 **Python-Based Automation** — Automate database maintenance and data management tasks.
+- ⚙️ **Configurable Operations** — Adapt scripts to your Elasticsearch and Neo4j environments.
 
 ## 📂 Project Structure
 
 ```text
 ElasticsearchMaintenanceTools/
 │
-├── es_delete.py       # Elasticsearch deletion operations
-├── es_update.py       # Elasticsearch document updates
-├── es_to_neo4j.py     # Elasticsearch to Neo4j data integration
-└── README.md          # Project documentation
+├── es_delete.py              # Elasticsearch deletion operations
+├── es_update.py              # Elasticsearch document updates
+├── ES_Chunk_Size_Update.py   # Chunk-wise Elasticsearch updates
+├── es_to_neo4j.py            # Elasticsearch to Neo4j data integration
+└── README.md                 # Project documentation
 ```
 
 ## 🧰 Requirements
 
 - Python 3
 - Access to an Elasticsearch instance
-- Access to a Neo4j database for `es_to_neo4j.py`
+- Access to Neo4j for `es_to_neo4j.py`
 - Required Python dependencies
-- Appropriate permissions for the intended database operations
+- Appropriate database permissions
 
 ## 🚀 Getting Started
 
@@ -49,13 +50,13 @@ cd ElasticsearchMaintenanceTools
 python -m venv .venv
 ```
 
-Activate on Windows (Git Bash):
+**Windows — Git Bash**
 
 ```bash
 source .venv/Scripts/activate
 ```
 
-Activate on Linux:
+**Linux / Ubuntu**
 
 ```bash
 source .venv/bin/activate
@@ -63,22 +64,22 @@ source .venv/bin/activate
 
 ### 3. Install Dependencies
 
-Install the Python packages required by your scripts. For example:
+Install the packages required by your scripts. For example:
 
 ```bash
 pip install elasticsearch neo4j
 ```
 
-Use client versions compatible with your installed Elasticsearch and Neo4j environments.
+Use compatible client versions for your Elasticsearch and Neo4j environments.
 
 ### 4. Configure Database Connections
 
-Configure the connection details required by the scripts, including:
+Configure the connection settings required by each script, including:
 
 - Elasticsearch server URL and authentication.
 - Target Elasticsearch indices.
-- Neo4j connection URI and authentication for `es_to_neo4j.py`.
-- Any required index names, query parameters, and processing settings.
+- Neo4j connection details for `es_to_neo4j.py`.
+- Chunk size and other processing parameters, where supported.
 
 **Security:** Never commit passwords, API keys, access tokens, or confidential server details to GitHub. Use environment variables or another secure configuration method.
 
@@ -88,47 +89,62 @@ Configure the connection details required by the scripts, including:
 
 Designed for Elasticsearch deletion operations.
 
-Potential use cases include:
+Potential use cases:
 
-- Deleting selected documents.
-- Removing records matching specified criteria.
-- Performing targeted data cleanup.
+- Delete selected documents.
+- Remove records matching specified criteria.
+- Perform targeted data cleanup.
 
-The exact deletion behavior depends on the implementation and query logic in the script.
+The exact deletion behavior depends on the script's implementation and query logic.
 
 ### 🔄 `es_update.py`
 
-Designed for updating Elasticsearch documents.
+Designed to update Elasticsearch documents.
 
-Potential use cases include:
+Potential use cases:
 
-- Updating document fields.
-- Modifying existing records based on defined criteria.
-- Performing targeted data corrections.
+- Update document fields.
+- Modify existing records based on defined criteria.
+- Perform targeted data corrections.
 
-The exact update behavior depends on the implementation and update logic in the script.
+The exact update behavior depends on the script's implementation.
+
+### 📦 `ES_Chunk_Size_Update.py`
+
+Designed to perform Elasticsearch updates in manageable chunks instead of processing all matching documents in a single operation.
+
+Potential benefits and use cases:
+
+- Process large sets of documents in smaller batches.
+- Control the number of records handled per chunk.
+- Reduce the impact of processing large volumes of data in one operation.
+- Support bulk maintenance tasks on large Elasticsearch indices.
+
+The actual chunk size, selection criteria, update logic, and execution behavior depend on the script's implementation.
+
+**Best practice:** Test the script on a small dataset first, verify the updated documents, and use an appropriate chunk size for your Elasticsearch cluster.
 
 ### 🔗 `es_to_neo4j.py`
 
 Designed to transfer and integrate data from Elasticsearch into Neo4j for graph-based storage and analysis.
 
-Potential use cases include:
+Potential use cases:
 
-- Retrieving records from Elasticsearch indices.
-- Processing and transforming records for graph ingestion.
-- Creating or updating Neo4j nodes and relationships, depending on the implemented logic.
-- Making Elasticsearch data available for relationship analysis and graph exploration.
+- Retrieve records from Elasticsearch indices.
+- Transform records for graph ingestion.
+- Create or update Neo4j nodes and relationships, depending on the implemented logic.
+- Support relationship analysis and graph exploration.
 
-The exact data mapping, ingestion logic, and node or relationship operations depend on the implementation in the script.
+The exact data mapping and ingestion behavior depend on the script's implementation.
 
 ## ⚠️ Important Considerations
 
-- Verify the target Elasticsearch index before executing maintenance operations.
-- Review deletion and update queries before execution.
-- Validate Elasticsearch-to-Neo4j data mappings before ingestion.
-- Test operations in a development environment before using production data.
-- Ensure database accounts have only the permissions required for the task.
-- Validate the results after executing maintenance or ingestion operations.
+- Verify the target index before executing maintenance operations.
+- Review update and deletion queries before execution.
+- Test scripts in a development environment before using production data.
+- Choose a suitable chunk size for large update operations.
+- Monitor execution logs and validate the results.
+- Ensure database accounts have only the required permissions.
 
 ## 👨‍💻 Author
 
@@ -140,4 +156,4 @@ GitHub: [@hemantkarne70-tech](https://github.com/hemantkarne70-tech)
 
 ---
 
-*Built to simplify Elasticsearch maintenance and support data integration with Neo4j through reusable Python utilities.*
+*Reusable Python utilities for Elasticsearch maintenance, chunk-wise updates, and Elasticsearch-to-Neo4j data integration.*
